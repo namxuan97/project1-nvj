@@ -1,0 +1,9 @@
+config {
+  type: "table",
+  schema: "reporting",
+  description: "Cleaned version of customer table"
+}
+
+select *
+from 
+${ref("stg_customers")}

@@ -1,0 +1,9 @@
+config {
+  type: "view",
+  schema: "staging",
+  description: "Cleaned version of customer table"
+}
+
+select *
+from 
+${ref("olist_customers_dataset")}
