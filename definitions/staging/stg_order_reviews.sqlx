@@ -9,7 +9,17 @@ with source as (
 ),
 
 renamed as (
-    select *
+    select
+        review_id,
+        order_id,
+
+        timestamp(review_answer_timestamp) as review_created_at,
+        --review_creation_date,
+        
+        review_score,
+        review_comment_title,
+        review_comment_message,
+    
     from source
 )
 

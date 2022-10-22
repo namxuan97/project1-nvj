@@ -9,7 +9,12 @@ with source as (
 ),
 
 renamed as (
-    select *
+    select
+        seller_id,
+        seller_city,
+        seller_state,
+        seller_zip_code_prefix
+
     from source
 )
 

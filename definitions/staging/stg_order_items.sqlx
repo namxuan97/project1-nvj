@@ -9,7 +9,17 @@ with source as (
 ),
 
 renamed as (
-    select *
+    select
+        order_id,
+        order_item_id,
+        product_id,
+        seller_id,
+        
+        timestamp(shipping_limit_date) as shipping_limit_date,
+        
+        price,
+        freight_value,
+
     from source
 )
 
