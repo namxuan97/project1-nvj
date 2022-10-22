@@ -2,6 +2,6 @@ config {
     type: "declaration",
     database: "project1-raw",
     schema: "kaggle",
-    name: "olist_orders_dataset",
+    name: "olist_products_dataset",
     description: "customer review per order"
 }

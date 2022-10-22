@@ -2,6 +2,6 @@ config {
     type: "declaration",
     database: "project1-raw",
     schema: "kaggle",
-    name: "olist_order_payments_dataset",
-    description: "order payment method"
+    name: "product_category_name_translation",
+    description: "main products"
 }
