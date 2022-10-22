@@ -1,0 +1,7 @@
+config {
+    type: "declaration",
+    database: "project1-raw",
+    schema: "kaggle",
+    name: "olist_sellers_dataset",
+    description: "sellers location"
+}
