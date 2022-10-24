@@ -4,6 +4,4 @@ config {
   description: "Cleaned version of customer table"
 }
 
-select *
-from 
-${ref("stg_customers")}
+select 1 as a
