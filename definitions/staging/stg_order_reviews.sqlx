@@ -1,7 +1,6 @@
 config {
   type: "view",
   schema: "staging",
-  description: "Cleaned version of customer table"
 }
 
 with source as (
