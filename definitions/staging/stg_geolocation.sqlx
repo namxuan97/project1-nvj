@@ -1,6 +1,10 @@
 config {
   type: "view",
   schema: "staging",
+  assertions: {
+    uniqueKey: ["unique_id"],
+    nonNull: ["unique_id"]
+  }
 }
 
 with source as (
@@ -8,7 +12,8 @@ with source as (
 ),
 
 renamed as (
-    select
+    select distinct
+        md5(cast( concat(geolocation_zip_code_prefix,geolocation_lat, geolocation_lng) as string)) as unique_id,
         geolocation_lat as latitutde,
         geolocation_lng as longtitude,
         geolocation_city as city,
@@ -16,6 +21,11 @@ renamed as (
         geolocation_zip_code_prefix as zip_code_prefix
 
     from source
+),
+
+deduped as (
+    select * from renamed
+    qualify row_number() over (partition by unique_id order by city) = 1
 )
 
-select * from renamed
+select * from deduped

@@ -1,6 +1,10 @@
 config {
   type: "view",
-  schema: "staging"
+  schema: "staging",
+  assertions: {
+    uniqueKey: ["product_category_name_portuguese"],
+    nonNull: ["product_category_name_portuguese"]
+  }
 }
 
 with source as (

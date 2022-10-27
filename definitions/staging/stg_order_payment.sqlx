@@ -1,6 +1,10 @@
 config {
   type: "view",
   schema: "staging",
+  assertions: {
+    uniqueKey: ["unique_id"],
+    nonNull: ["order_id"]
+  }
 }
 
 with source as (
@@ -9,6 +13,7 @@ with source as (
 
 renamed as (
     select
+        md5(cast(concat(order_id, payment_sequential) as string)) as unique_id,
         order_id,
         payment_sequential,
         payment_type,

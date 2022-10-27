@@ -1,6 +1,10 @@
 config {
   type: "view",
   schema: "staging",
+  assertions: {
+    uniqueKey: ["unique_id"],
+    nonNull: ["unique_id"]
+  }
 }
 
 with source as (
@@ -9,8 +13,9 @@ with source as (
 
 renamed as (
     select
-        order_id,
+        md5(cast (concat (order_id,order_item_id) as string)) as unique_id,
         order_item_id,
+        order_id,
         product_id,
         seller_id,
         
