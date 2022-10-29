@@ -1,7 +1,0 @@
-config {
-  type: "table",
-  schema: "reporting",
-  description: "Cleaned version of customer table"
-}
-
-select 1 as a

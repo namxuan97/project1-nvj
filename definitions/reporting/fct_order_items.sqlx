@@ -1,0 +1,42 @@
+config {
+    type: "table",
+    schema: "reporting",
+    description: "order summary",
+    assertions: {
+      uniqueKey: ["unique_id"],
+      nonNull: ["unique_id"]
+    }
+}
+
+with order_items as (
+    select * from ${ref('stg_order_items')}
+),
+
+orders as (
+    select * from ${ref('stg_orders')}
+),
+
+order_reviews as (
+    select * from ${ref('stg_order_reviews')}
+),
+
+final as (
+    select
+        order_items.*,
+        orders.customer_id,
+        orders.order_delivered_carrier_at,
+        orders.order_delivered_customer_at,
+        orders.order_estimated_delivery_at,
+        orders.order_status,
+
+        order_items.order_amount + order_items.freight_value as gross_revenue,
+        order_items.order_amount - order_items.freight_value as net_revenue
+
+
+    from order_items
+    left join orders
+        on order_items.order_id = orders.order_id
+        
+)
+
+select * from final
