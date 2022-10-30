@@ -4,4 +4,5 @@ config {
   description: "Cleaned version of customer table"
 }
 
-select 1 as a
+select 'a' as test, sum(1) as a
+${utils.group_by(5)}

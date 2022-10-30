@@ -13,7 +13,9 @@ with source as (
 
 renamed as (
     select distinct
-        md5(cast( concat(geolocation_zip_code_prefix,geolocation_lat, geolocation_lng) as string)) as unique_id,
+        ${surrogate_key.surrogate_key(
+            ["geolocation_zip_code_prefix","geolocation_lat","geolocation_lng"]
+        )} as unique_id,
         geolocation_lat as latitutde,
         geolocation_lng as longtitude,
         geolocation_city as city,
