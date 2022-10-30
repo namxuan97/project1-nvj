@@ -1,0 +1,27 @@
+config {
+    type: "table",
+    schema: "reporting",
+    description: "order review statistics",
+    assertions: {
+      uniqueKey: ["order_id"],
+      nonNull: ["order_id"]
+    }
+}
+
+with order_reviews as (
+    select 
+        order_id,
+        review_score,
+        concat('review_', review_order) as review_count
+    
+    from ${ref('stg_order_reviews')}
+),
+
+logic as (
+    select *      
+
+    from order_reviews
+    pivot(min(review_score) for review_count in ('review_1','review_2','review_3'))
+)
+
+select * from logic

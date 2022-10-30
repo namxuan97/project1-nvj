@@ -16,8 +16,13 @@ orders as (
     select * from ${ref('stg_orders')}
 ),
 
+products as (
+    select * from ${ref('stg_products')}
+),
+
 order_reviews as (
     select * from ${ref('stg_order_reviews')}
+    where review_order_desc = 1
 ),
 
 final as (
@@ -28,6 +33,8 @@ final as (
         orders.order_delivered_customer_at,
         orders.order_estimated_delivery_at,
         orders.order_status,
+        products.product_category_name_english,
+        order_reviews.review_score as review_score_latest,
 
         order_items.order_amount + order_items.freight_value as gross_revenue,
         order_items.order_amount - order_items.freight_value as net_revenue
@@ -36,6 +43,10 @@ final as (
     from order_items
     left join orders
         on order_items.order_id = orders.order_id
+    left join products
+        on products.product_id = order_items.product_id
+    left join order_reviews
+        on order_reviews.order_id = order_items.order_id
         
 )
 

@@ -23,6 +23,9 @@ renamed as (
         review_score,
         review_comment_title,
         review_comment_message,
+
+        row_number() over (partition by order_id order by review_answer_timestamp desc) as review_order_desc,
+        row_number() over (partition by order_id order by review_answer_timestamp asc) as review_order
     
     from source
 )
