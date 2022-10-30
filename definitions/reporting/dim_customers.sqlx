@@ -1,8 +1,0 @@
-config {
-  type: "table",
-  schema: "reporting",
-  description: "Cleaned version of customer table"
-}
-
-select 'a' as test, sum(1) as a
-${utils.group_by(5)}
