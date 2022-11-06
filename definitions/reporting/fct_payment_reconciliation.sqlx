@@ -1,0 +1,41 @@
+config {
+    type: "table",
+    schema: "reporting",
+    description: "reconciliation between amount in orders and amount paid",
+    assertions: {
+      uniqueKey: ["order_id"],
+      nonNull: ["order_id"]
+    }
+}
+
+with order_summaries as (
+    select
+        order_id,
+        sum(gross_revenue) as payment_amount_orders
+
+    from ${ref("fct_order_items")}
+    group by 1
+),
+
+order_payments as (
+    select
+        order_id,
+        sum(payment_value) as payment_amount_actual
+    
+    from ${ref("stg_order_payments")}
+    group by 1
+),
+
+final as (
+    select
+        order_summaries.order_id,
+        order_summaries.payment_amount_orders,
+        order_payments.payment_amount_actual
+    
+    from order_summaries
+    left join order_payments
+        on order_summaries.order_id = order_payments.order_id
+        
+)
+
+select * from final

@@ -1,10 +1,10 @@
 config {
-  type: "view",
-  schema: "staging",
-  assertions: {
-    uniqueKey: ["unique_id"],
-    nonNull: ["unique_id"]
-  }
+    type: "view",
+    schema: "staging",
+    assertions: {
+      uniqueKey: ["unique_id"],
+      nonNull: ["unique_id"]
+    }
 }
 
 with source as (
@@ -19,12 +19,15 @@ renamed as (
         review_id,
         order_id,
 
-        timestamp(review_answer_timestamp) as review_created_at,
-        --review_creation_date,
+        timestamp(review_answer_timestamp) as review_answered_at,
+        timestamp(review_creation_date) as review_created_at,
         
         review_score,
         review_comment_title,
         review_comment_message,
+
+        row_number() over (partition by order_id order by review_answer_timestamp desc) as review_order_desc,
+        row_number() over (partition by order_id order by review_answer_timestamp asc) as review_order
     
     from source
 )

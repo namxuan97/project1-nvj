@@ -1,14 +1,18 @@
 config {
-  type: "view",
-  schema: "staging",
-  assertions: {
-    uniqueKey: ["product_id"],
-    nonNull: ["product_id"]
-  }
+    type: "view",
+    schema: "staging",
+    assertions: {
+      uniqueKey: ["product_id"],
+      nonNull: ["product_id"]
+    }
 }
 
-with source as (
+with products_dataset as (
     select * from ${ref("olist_products_dataset")}
+),
+
+category_name_translated as (
+    select * from ${ref("product_category_name_translation")}
 ),
 
 renamed as (
@@ -23,7 +27,18 @@ renamed as (
         product_height_cm,
         product_width_cm
 
-    from source
+    from products_dataset
+),
+
+joined as (
+    select
+        renamed.*,
+        category_name_translated.product_category_name_english
+
+    from renamed
+    left join category_name_translated
+        on renamed.product_category_name = category_name_translated.product_category_name
+
 )
 
-select * from renamed
+select * from joined

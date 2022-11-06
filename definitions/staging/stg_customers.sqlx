@@ -1,10 +1,10 @@
 config {
-  type: "view",
-  schema: "staging",
-  assertions: {
-    uniqueKey: ["customer_id"],
-    nonNull: ["customer_id"]
-  }
+    type: "view",
+    schema: "staging",
+    assertions: {
+      uniqueKey: ["customer_id"],
+      nonNull: ["customer_id"]
+    }
 }
 
 with source as (
