@@ -21,6 +21,4 @@ jobs:
         - run: npm test
   
         - name: Dataform check
-          run: |
-            git fetch origin master:master
-            git diff master --name-only --diff-filter=d | egrep '^models/.*sqlx$$' | xargs -r dataform run
+          run: dataform run
