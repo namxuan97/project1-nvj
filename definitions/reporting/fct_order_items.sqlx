@@ -29,6 +29,7 @@ final as (
     select
         order_items.*,
         orders.customer_id,
+        orders.order_purchase_at,
         orders.order_delivered_carrier_at,
         orders.order_delivered_customer_at,
         orders.order_estimated_delivery_at,
@@ -37,7 +38,8 @@ final as (
         order_reviews.review_score as review_score_latest,
 
         order_items.order_amount + order_items.freight_value as gross_revenue,
-        order_items.order_amount - order_items.freight_value as net_revenue
+        order_items.order_amount as net_revenue,
+        order_items.order_amount - order_items.freight_value as gross_margin
 
 
     from order_items
