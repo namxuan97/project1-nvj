@@ -1,0 +1,25 @@
+name: pr_to_master
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+    name: pr_to_master
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@master
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: npm ci
+      - run: npm test
+
+      - name: Dataform check
+        run: |
+          git fetch origin master:master
+          git diff master --name-only --diff-filter=d | egrep '^models/.*sqlx$$' | xargs -r dataform run
