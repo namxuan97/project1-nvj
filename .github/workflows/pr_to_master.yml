@@ -19,6 +19,9 @@ jobs:
             node-version: '12'
         - run: npm ci
         - run: npm test
+
+        - name: Install dependencies
+          run: npm i -g @dataform/cli
   
         - name: Dataform check
           run: dataform run
